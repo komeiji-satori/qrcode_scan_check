@@ -1,0 +1,32 @@
+<script src="https://otomads.com/lib/js/jquery.js"></script>
+<script type="text/javascript">
+	function get_status(id){
+		var api = './get_status.php';
+		$.ajax({
+		cache: false,
+		type: "get",
+		url: api,
+		data: null,
+		async: true,
+		dataType: "json",
+		error: function(request) {
+			console.log("发生错误");
+		},
+		success: function(data) {
+			if (data['status']==0) {
+				console.log('未扫描');
+			}else if(data['status']==2){
+				console.log('二维码已失效');
+				clearInterval(id);
+			}else{
+				clearInterval(id);
+				console.log('扫描成功');
+			}
+		}
+	});
+	}
+	var id = setInterval("get_status(id)",1000);
+</script>
+<div align="center">
+	<img src="http://192.168.100.4:12450/qr.php">
+</div>
